@@ -12,7 +12,6 @@ import { isMobileScreen, trimTopic } from "../utils";
 
 import Locale from "../locales";
 import { showToast } from "../components/ui-lib";
-import tr from "../locales/tr";
 
 export type Message = ChatCompletionResponseMessage & {
   date: string;
