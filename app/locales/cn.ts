@@ -49,8 +49,8 @@ const cn = {
     DeleteChat: "确认删除选中的对话？",
     DeleteToast: "已删除会话",
     Revert: "撤销",
-    Title: "ChatGLM-6B",
-    Description: "ChatGLM-6B 本地知识库",
+    Title: "AI 客服",
+    Description: "打造您专属的 AI 客服",
   },
   Settings: {
     Title: "设置",

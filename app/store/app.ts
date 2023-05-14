@@ -19,6 +19,7 @@ export type Message = ChatCompletionResponseMessage & {
   streaming?: boolean;
   isError?: boolean;
   id?: number;
+  tips?: string;
 };
 
 export function createMessage(override: Partial<Message>): Message {
@@ -399,7 +400,6 @@ export const useChatStore = create<ChatStore>()(
 
         // get recent messages
         let recentMessages = get().getMessagesWithMemory();
-        const sendMessages = recentMessages.concat(userMessage);
         const sessionIndex = get().currentSessionIndex;
         const messageIndex = get().currentSession().messages.length + 1;
 
@@ -410,8 +410,8 @@ export const useChatStore = create<ChatStore>()(
         });
 
         // make request
-        requestLangChain(userMessage, {
-          onMessage(content, done) {
+        requestLangChain(userMessage, recentMessages, {
+          onMessage(content, tips, done) {
             // stream response
             if (done) {
               botMessage.streaming = false;
@@ -423,6 +423,7 @@ export const useChatStore = create<ChatStore>()(
               );
             } else {
               botMessage.content = content;
+              botMessage.tips = tips;
               set(() => ({}));
             }
           },
@@ -430,11 +431,13 @@ export const useChatStore = create<ChatStore>()(
             if (statusCode === 401) {
               botMessage.content = Locale.Error.Unauthorized;
             } else {
-              botMessage.content += "\n\n" + Locale.Store.Error;
+              botMessage.content +=
+                "\n\n" + Locale.Store.Error + " [" + error.message + "] ";
             }
             botMessage.streaming = false;
             userMessage.isError = true;
             botMessage.isError = true;
+            botMessage.tips = "";
             set(() => ({}));
             ControllerPool.remove(sessionIndex, botMessage.id ?? messageIndex);
           },

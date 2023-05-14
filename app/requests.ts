@@ -137,19 +137,40 @@ export async function requestUsage() {
   };
 }
 
+function transformData(data: any[]) {
+  const users = data
+    .filter((item) => item.role === "user")
+    .map((item) => item.content);
+  const assistants = data
+    .filter((item) => item.role === "assistant")
+    .map((item) => item.content);
+  const result = [];
+  for (let i = 0; i < users.length && i < assistants.length; i++) {
+    result.push([users[i], assistants[i]]);
+  }
+  return result;
+}
+
 export async function requestLangChain(
   message: Message,
+  historyMessage: Message[],
   options?: {
-    onMessage: (message: string, done: boolean) => void;
+    onMessage: (message: string, tips: string, done: boolean) => void;
     onError: (error: Error, statusCode?: number) => void;
     onController?: (controller: AbortController) => void;
   },
 ) {
   const knowledgeId = useChatStore.getState().config.knowledgeId;
+  if (!knowledgeId || knowledgeId.length === 0) {
+    options?.onError(new Error("请先选择知识库"), 500);
+    return;
+  }
+
+  const histories = transformData(historyMessage);
   const requestBody = {
     knowledge_base_id: knowledgeId,
     question: message.content,
-    history: [],
+    history: histories,
   };
 
   const controller = new AbortController();
@@ -157,13 +178,12 @@ export async function requestLangChain(
 
   try {
     const res = await requestOpenaiClient("chat-docs/chat")(requestBody);
-    console.info(res);
     clearTimeout(reqTimeoutId);
 
     let responseText = "";
 
     const finish = () => {
-      options?.onMessage(responseText, true);
+      options?.onMessage(responseText, "", true);
       controller.abort();
     };
 
@@ -185,11 +205,10 @@ export async function requestLangChain(
 
         const text = decoder.decode(content.value, { stream: true });
         const jsonTest = JSON.parse(text);
-        responseText +=
-          jsonTest.response + "\n\n\n" + jsonTest.source_documents;
+        responseText += jsonTest.response;
 
         const done = content.done;
-        options?.onMessage(responseText, false);
+        options?.onMessage(responseText, jsonTest.source_documents, false);
 
         if (done) {
           break;

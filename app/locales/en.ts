@@ -52,8 +52,8 @@ const en: LocaleType = {
     DeleteChat: "Confirm to delete the selected conversation?",
     DeleteToast: "Chat Deleted",
     Revert: "Revert",
-    Title: "ChatGLM-6B",
-    Description: "ChatGLM-6B Knowledge Base",
+    Title: "AI Customer Service",
+    Description: "Build Your Own AI Customer Service",
   },
   Settings: {
     Title: "Settings",

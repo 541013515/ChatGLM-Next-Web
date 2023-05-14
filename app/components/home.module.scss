@@ -349,10 +349,26 @@
   padding-top: 5px;
   box-sizing: border-box;
   font-size: 12px;
+  justify-content: space-between;
 }
 
 .chat-message-action-date {
   color: #aaa;
+}
+
+.chat-message-action-tips {
+  opacity: 0.5;
+    color: var(--black);
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:not(:first-child) {
+      margin-right: 10px;
+    }
 }
 
 .chat-input-panel {

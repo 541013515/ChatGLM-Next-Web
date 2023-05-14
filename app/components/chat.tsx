@@ -50,7 +50,7 @@ import { IconButton } from "./button";
 import styles from "./home.module.scss";
 import chatStyle from "./chat.module.scss";
 
-import { Input, Modal, showModal } from "./ui-lib";
+import { Input, Modal, showModal, showToast } from "./ui-lib";
 
 const Markdown = dynamic(
   async () => memo((await import("./markdown")).Markdown),
@@ -578,6 +578,7 @@ export function Chat(props: {
               ...createMessage({
                 role: "assistant",
                 content: "……",
+                tips: "",
               }),
               preview: true,
             },
@@ -759,6 +760,14 @@ export function Chat(props: {
                     <div className={styles["chat-message-action-date"]}>
                       {message.date.toLocaleString()}
                     </div>
+                    {message.tips && (
+                      <div
+                        className={styles["chat-message-action-tips"]}
+                        onClick={() => showToast(message.tips || "error")}
+                      >
+                        {"点击查看来源"}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
