@@ -141,7 +141,7 @@ export const ModalConfigValidator = {
 
 const DEFAULT_CONFIG: ChatConfig = {
   historyMessageCount: 4,
-  compressMessageLengthThreshold: 1000,
+  compressMessageLengthThreshold: 2000,
   sendBotMessages: true as boolean,
   submitKey: SubmitKey.CtrlEnter as SubmitKey,
   avatar: "1f603",
@@ -583,14 +583,7 @@ export const useChatStore = create<ChatStore>()(
           session.topic === DEFAULT_TOPIC &&
           countMessages(session.messages) >= SUMMARIZE_MIN_LEN
         ) {
-          requestWithPrompt(session.messages, Locale.Store.Prompt.Topic).then(
-            (res) => {
-              get().updateCurrentSession(
-                (session) =>
-                  (session.topic = res ? trimTopic(res) : DEFAULT_TOPIC),
-              );
-            },
-          );
+          get().updateCurrentSession((session) => (session.topic = "闲聊"));
         }
 
         const config = get().config;
@@ -620,26 +613,7 @@ export const useChatStore = create<ChatStore>()(
         );
 
         if (historyMsgLength > config.compressMessageLengthThreshold) {
-          requestChatStream(
-            toBeSummarizedMsgs.concat({
-              role: "system",
-              content: Locale.Store.Prompt.Summarize,
-              date: "",
-            }),
-            {
-              filterBot: false,
-              onMessage(message, done) {
-                session.memoryPrompt = message;
-                if (done) {
-                  console.log("[Memory] ", session.memoryPrompt);
-                  session.lastSummarizeIndex = lastSummarizeIndex;
-                }
-              },
-              onError(error) {
-                console.error("[Summarize] ", error);
-              },
-            },
-          );
+          this.resetSession();
         }
       },
 

@@ -227,21 +227,6 @@ export async function requestLangChain(
     console.error("NetWork Error", err);
     options?.onError(err as Error);
   }
-
-  // const res = await requestOpenaiClient("chat-docs/chat")(requestBody);
-
-  // try {
-  //   const responseBody = await res.json();
-  //   console.info(responseBody);
-  //   const { question, response, history, source_documents} = responseBody; // 解构响应数据
-  //   console.info(question);
-  //   console.info(response);
-  //   console.info(history);
-  //   console.info(source_documents);
-  //   return response;
-  // } catch (error) {
-  //   console.error("[requestChat] ", error, res.body);
-  // }
 }
 
 export async function requestChatStream(
