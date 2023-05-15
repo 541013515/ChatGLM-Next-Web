@@ -151,6 +151,7 @@ const cn = {
       SubTitle: "需要定制网站请联系我",
     },
     WeChat: "微信扫一扫",
+    Ref: "引用来源",
   },
   Store: {
     DefaultTopic: "新的聊天",

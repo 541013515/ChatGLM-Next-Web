@@ -155,7 +155,7 @@ export async function requestLangChain(
   message: Message,
   historyMessage: Message[],
   options?: {
-    onMessage: (message: string, tips: string, done: boolean) => void;
+    onMessage: (message: string, tips: string[], done: boolean) => void;
     onError: (error: Error, statusCode?: number) => void;
     onController?: (controller: AbortController) => void;
   },
@@ -183,7 +183,7 @@ export async function requestLangChain(
     let responseText = "";
 
     const finish = () => {
-      options?.onMessage(responseText, "", true);
+      options?.onMessage(responseText, [], true);
       controller.abort();
     };
 

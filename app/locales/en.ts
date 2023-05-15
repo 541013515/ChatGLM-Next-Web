@@ -155,6 +155,7 @@ const en: LocaleType = {
       SubTitle: "Please contact me if you need a custom website",
     },
     WeChat: "WeChat scanner",
+    Ref: "Source of Reference",
   },
   Store: {
     DefaultTopic: "New Conversation",

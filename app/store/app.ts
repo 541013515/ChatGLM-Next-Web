@@ -18,7 +18,7 @@ export type Message = ChatCompletionResponseMessage & {
   streaming?: boolean;
   isError?: boolean;
   id?: number;
-  tips?: string;
+  tips?: string[];
 };
 
 export function createMessage(override: Partial<Message>): Message {
@@ -436,7 +436,7 @@ export const useChatStore = create<ChatStore>()(
             botMessage.streaming = false;
             userMessage.isError = true;
             botMessage.isError = true;
-            botMessage.tips = "";
+            botMessage.tips = [];
             set(() => ({}));
             ControllerPool.remove(sessionIndex, botMessage.id ?? messageIndex);
           },

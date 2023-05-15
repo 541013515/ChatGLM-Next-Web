@@ -119,6 +119,25 @@ function exportMessages(messages: Message[], topic: string) {
   });
 }
 
+function showTips(content: string[]) {
+  showModal({
+    title: Locale.Settings.Ref,
+    children: (
+      <div
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        {content.map((paragraph, idx) => (
+          <p key={idx}>{paragraph}</p>
+        ))}
+      </div>
+    ),
+  });
+}
+
 function PromptToast(props: {
   showToast?: boolean;
   showModal?: boolean;
@@ -578,7 +597,7 @@ export function Chat(props: {
               ...createMessage({
                 role: "assistant",
                 content: "……",
-                tips: "",
+                tips: [],
               }),
               preview: true,
             },
@@ -763,7 +782,7 @@ export function Chat(props: {
                     {message.tips && (
                       <div
                         className={styles["chat-message-action-tips"]}
-                        onClick={() => showToast(message.tips || "error")}
+                        onClick={() => showTips(message.tips || [])}
                       >
                         {"点击查看来源"}
                       </div>
