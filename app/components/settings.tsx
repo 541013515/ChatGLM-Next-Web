@@ -176,12 +176,18 @@ export function Settings(props: { closeSettings: () => void }) {
       (config) => (config.knowledgeId = event.target.value as any as Theme),
     );
   };
+
   useEffect(() => {
     requestDocs().then((data) => {
       setKnowledge(data);
-      updateConfig((config) => (config.knowledgeId = data[0]));
     });
   }, []);
+
+  useEffect(() => {
+    if (!config.knowledgeId && knowledge.length > 0) {
+      updateConfig((config) => (config.knowledgeId = knowledge[0]));
+    }
+  }, [knowledge]);
 
   return (
     <ErrorBoundary>
@@ -401,7 +407,10 @@ export function Settings(props: { closeSettings: () => void }) {
           </SettingItem>
 
           <SettingItem title={Locale.Settings.Knowledge}>
-            <select onChange={handleChange}>
+            <select
+              onChange={handleChange}
+              value={config.knowledgeId || knowledge[0]}
+            >
               {knowledge.map((knowledge) => (
                 <option key={knowledge} value={knowledge}>
                   {knowledge}

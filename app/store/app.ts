@@ -56,7 +56,7 @@ export interface ChatConfig {
   tightBorder: boolean;
   sendPreviewBubble: boolean;
   sidebarWidth: number;
-  knowledgeId: String;
+  knowledgeId: string;
 
   disablePromptHint: boolean;
 
@@ -613,7 +613,9 @@ export const useChatStore = create<ChatStore>()(
         );
 
         if (historyMsgLength > config.compressMessageLengthThreshold) {
-          this.resetSession();
+          session.memoryPrompt = "遗忘之前的历史";
+          console.log("[Memory] ", session.memoryPrompt);
+          session.lastSummarizeIndex = lastSummarizeIndex;
         }
       },
 
