@@ -18,5 +18,6 @@ export async function requestOpenai(req: NextRequest) {
     },
     method: req.method,
     body: req.body,
+    cache: "no-store",
   });
 }
