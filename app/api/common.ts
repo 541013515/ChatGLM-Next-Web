@@ -18,6 +18,22 @@ export async function requestOpenai(req: NextRequest) {
     },
     method: req.method,
     body: req.body,
+  });
+}
+
+export async function requestDocs(req: NextRequest) {
+  const apiKey = req.headers.get("token");
+  const openaiPath = req.headers.get("path");
+
+  console.log("[RequestPath] ", `${PROTOCOL}://${BASE_URL}/${openaiPath}`);
+
+  return fetch(`${PROTOCOL}://${BASE_URL}/${openaiPath}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    method: req.method,
+    body: req.body,
     cache: "no-store",
   });
 }
