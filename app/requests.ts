@@ -58,7 +58,6 @@ export function requestOpenaiClient(path: string) {
         ...getHeaders(),
       },
       body: body && JSON.stringify(body),
-      duplex: true,
     });
 }
 
