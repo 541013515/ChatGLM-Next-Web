@@ -9,7 +9,6 @@ export async function requestOpenai(req: NextRequest) {
   const openaiPath = req.headers.get("path");
 
   console.log("[RequestPath] ", `${PROTOCOL}://${BASE_URL}/${openaiPath}`);
-  console.log("[RequestMethod]", req.method);
   console.log("[RequestBody]", req.body);
 
   return fetch(`${PROTOCOL}://${BASE_URL}/${openaiPath}`, {
@@ -18,7 +17,6 @@ export async function requestOpenai(req: NextRequest) {
     },
     method: req.method,
     body: req.body,
-    duplex: true,
   });
 }
 
