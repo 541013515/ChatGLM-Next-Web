@@ -6,17 +6,19 @@ const PROTOCOL = process.env.PROTOCOL ?? DEFAULT_PROTOCOL;
 const BASE_URL = process.env.BASE_URL ?? OPENAI_URL;
 
 export async function requestOpenai(req: NextRequest) {
+  const bodyString = await req.text();
+  const bodyJSON = JSON.parse(bodyString);
   const openaiPath = req.headers.get("path");
 
   console.log("[RequestPath] ", `${PROTOCOL}://${BASE_URL}/${openaiPath}`);
-  console.log("[RequestBody]", req.body);
+  console.log("[RequestBody]", bodyJSON);
 
   return fetch(`${PROTOCOL}://${BASE_URL}/${openaiPath}`, {
     headers: {
       "Content-Type": "application/json",
     },
     method: req.method,
-    body: req.body,
+    body: JSON.stringify(bodyJSON),
   });
 }
 
