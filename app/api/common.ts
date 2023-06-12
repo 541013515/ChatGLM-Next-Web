@@ -25,7 +25,7 @@ export async function requestDocs(req: NextRequest) {
   const apiKey = req.headers.get("token");
   const openaiPath = req.headers.get("path");
 
-  console.log("[RequestPath] ", `${PROTOCOL}://${BASE_URL}/${openaiPath}`);
+  console.log("[requestDocs] ", `${PROTOCOL}://${BASE_URL}/${openaiPath}`);
 
   return fetch(`${PROTOCOL}://${BASE_URL}/${openaiPath}`, {
     headers: {
