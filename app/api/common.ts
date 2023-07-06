@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-const OPENAI_URL = "region-9.seetacloud.com:19628";
+const OPENAI_URL = "region-9.seetacloud.com:39485";
 const DEFAULT_PROTOCOL = "http";
 const PROTOCOL = process.env.PROTOCOL ?? DEFAULT_PROTOCOL;
 const BASE_URL = process.env.BASE_URL ?? OPENAI_URL;

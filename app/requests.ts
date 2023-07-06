@@ -62,7 +62,10 @@ export function requestOpenaiClient(path: string) {
 }
 
 export async function requestDocs() {
-  const res = await requestOpenaiClient("chat-docs/list")(null, "GET");
+  const res = await requestOpenaiClient("local_doc_qa/list_knowledge_base")(
+    null,
+    "GET",
+  );
 
   try {
     const response = await res.json();
@@ -177,7 +180,10 @@ export async function requestLangChain(
   const reqTimeoutId = setTimeout(() => controller.abort(), TIME_OUT_MS);
 
   try {
-    const res = await requestOpenaiClient("chat-docs/chat")(requestBody);
+    const res = await requestOpenaiClient("local_doc_qa/local_doc_chat")(
+      requestBody,
+      "POST",
+    );
     clearTimeout(reqTimeoutId);
 
     let responseText = "";
